@@ -42,4 +42,30 @@ function getProductTable() {
 getProductTable();
 
 
+/* 6- Insérer un produit et ses détails dans la page Produit */
+
+
+// Répartition des données de l'API dans le DOM pour le détail des produits à afficher  
+function getProductDetails(product) {
+    
+    const productImage = document.createElement("img");
+    document.querySelector(".item__img").appendChild(productImage);
+    productImage.src = product.imageUrl;
+    productImage.alt = product.altTxt;
+
+    const productTitle = document.getElementById("title");
+    productTitle.textContent = product.name;
+
+    const productPrice = document.getElementById("price");
+    productPrice.textContent = product.price;
+
+    const productDescription = document.getElementById("description");
+    productDescription.textContent = product.description;
+
+    for (let colors of product.colors) {
+        const productColors = document.createElement("option");
+        document.querySelector("#colors").appendChild(productColors);
+        productColors.textContent = colors;
+    }
+}
 
