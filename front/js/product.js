@@ -16,5 +16,30 @@ function getProductId() {
 
 getProductId();
 
+/* 5- Récupérer l'id du produit à afficher */
+
+//Récupérer la nouvelle adresse avec un id spécifique pour chaque produit
+function getProductTable() {
+    const productId = getProductId();
+    fetch("http://localhost:3000/api/products/" + productId)
+
+    .then(function(res) {
+        if(res.ok) {
+            return res.json();
+        }
+    })
+    .then(function(productsApi) {
+        product = productsApi;
+        if (product){
+            getProductDetails(product);
+        }
+    })
+    .catch(function(err) {
+        console.log("Une erreur est survenue");
+    })
+}
+
+getProductTable();
+
 
 
