@@ -8,5 +8,13 @@ console.log(name);
 */
 
 //Créer une nouveau URL contenant l'id du produit correspondant
+function getProductId() {
+    const pageUrl = new URL(window.location.href);
+    const productId = pageUrl.searchParams.get("id");
+    return productId
+}
+
+getProductId();
+
 
 
