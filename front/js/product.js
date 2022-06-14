@@ -19,6 +19,9 @@ getProductId();
 /* 5- Récupérer l'id du produit à afficher */
 
 //Récupérer la nouvelle adresse avec un id spécifique pour chaque produit
+
+let product = null;
+
 function getProductTable() {
     const productId = getProductId();
     fetch("http://localhost:3000/api/products/" + productId)
@@ -33,9 +36,10 @@ function getProductTable() {
         if (product){
             getProductDetails(product);
         }
+        
     })
     .catch(function(err) {
-        console.log("Une erreur est survenue");
+        console.log("Une erreur est survenue", err);
     })
 }
 
@@ -68,4 +72,11 @@ function getProductDetails(product) {
         productColors.textContent = colors;
     }
 }
+
+const boutonAjouterPanier = document.getElementById("addToCart");
+    boutonAjouterPanier.addEventListener("click", function eventOnClick() {
+        console.log("clic");
+    
+
+    });
 
