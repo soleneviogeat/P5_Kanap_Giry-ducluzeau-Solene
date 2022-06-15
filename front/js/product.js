@@ -73,10 +73,62 @@ function getProductDetails(product) {
     }
 }
 
+
+/* 7- Ajouter des produits dans le panier */
+
+
+// Récupération de la couleur sélectionnée 
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelector("select[name='color-select']").onchange=changeEventHandlerColor;
+    },false);
+
+function changeEventHandlerColor(event) {
+    if(!event.target.value) alert("Merci de sélectionner une couleur");
+    else {
+        alert("Vous avez choisi la couleur " + event.target.value);
+
+        const productColor = JSON.stringify(changeEventHandlerColor);
+        localStorage.setItem(product.color, productColor);
+    }
+}
+
+
+
+// Activation du bouton Ajouter dans le panier
 const boutonAjouterPanier = document.getElementById("addToCart");
     boutonAjouterPanier.addEventListener("click", function eventOnClick() {
         console.log("clic");
+
+        const productStringify = JSON.stringify(product);
+        localStorage.setItem(product._id, productStringify);
+
+});
+
+
+
+
+
+
+
+
+
+
+
+    //Lors du clic sur le bouton :
+    //    1- Transformer les éléments de la variable 'product' en string
+    //    2- Stocker tous ces éléments dans le cache navigateur (Local Storage)
+    //    3- Remettre les éléments sous leurs format d'origine
+    //    4- Récupérer les éléments dans le Local Storage
+
+    //       Pour que les éléments apparaissent dans la page Panier, il faut :
+    //    5- Voir comment faire pour récupérer la couleur sélectionnée par le client
+    //    6- Voir comment faire pour récupérer la quantité saisie par le client
+    //    7- Créer une clé pour rendre chaque article unique : id + couleur
     
+    //    8- Si Panier contient déjà la clé à ajouter, alors incrémenter la quantité de cette clé
+    //    9- Si Panier ne contient pas la clé, alors ajouter la clé id+couleur au Panier avec la quantité 1
 
-    });
-
+    //    PAGE PANIER :
+    //    10- Gérer le montant total du Panier
+    //    11- Gérer la suppression et l'ajout dans le tableau Panier
+    //    12- Faire apparaître tous les éléments souhaités sur la page Panier

@@ -14,7 +14,7 @@ getProductCart();
 //2 étape :
 //Créer un objet avec le tableau ressenssant les données à afficher
 
-/*
+
     const cartItem = document.createElement("article");
     article.classList.add("cart__item");
     //article.textContent = product.name;
