@@ -92,7 +92,20 @@ function changeEventHandlerColor(event) {
     }
 }
 
+// Récupération de la quantité saisie
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelector("input[name='itemQuantity']").onchange=changeEventHandlerQuantity;
+    },false);
 
+function changeEventHandlerQuantity(event) {
+    if(!event.target.value) alert("Merci d'indiquer la quantité souhaitée");
+    else {
+        alert("L'article a été positionné dans votre panier");
+
+        const productQuantity = JSON.stringify(changeEventHandlerQuantity);
+        localStorage.setItem(product.quantity, productQuantity);
+    }
+}
 
 // Activation du bouton Ajouter dans le panier
 const boutonAjouterPanier = document.getElementById("addToCart");
