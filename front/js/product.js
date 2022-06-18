@@ -7,6 +7,8 @@ var name = url.searchParams.get("name");
 console.log(name);
 */
 
+
+
 //Créer une nouveau URL contenant l'id du produit correspondant
 function getProductId() {
     const pageUrl = new URL(window.location.href);
@@ -19,6 +21,7 @@ getProductId();
 /* 5- Récupérer l'id du produit à afficher */
 
 //Récupérer la nouvelle adresse avec un id spécifique pour chaque produit
+
 
 let product = null;
 
@@ -70,61 +73,53 @@ function getProductDetails(product) {
         const productColors = document.createElement("option");
         document.querySelector("#colors").appendChild(productColors);
         productColors.textContent = colors;
+        productColors.value = colors;
     }
 }
+
 
 
 /* 7- Ajouter des produits dans le panier */
 
+/*let name = document.getElementById("title");
+let price = document.getElementById("price");
+let id = getProductId();*/
+
+
+
+
+
+//let quantity = document.getElementById("quantity").value;
+
 
 // Récupération de la couleur sélectionnée 
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelector("select[name='color-select']").onchange=changeEventHandlerColor;
-    },false);
 
-function changeEventHandlerColor(event) {
-    if(!event.target.value) alert("Merci de sélectionner une couleur");
-    else {
-        alert("Vous avez choisi la couleur " + event.target.value);
+document.addEventListener("change", function(event) {
+    const color = document.querySelector("#colors").value;
+    product.colorSelected = color;
+})
 
-        const productColor = JSON.stringify(changeEventHandlerColor);
-        localStorage.setItem(product.color, productColor);
-    }
-}
 
 // Récupération de la quantité saisie
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelector("input[name='itemQuantity']").onchange=changeEventHandlerQuantity;
-    },false);
 
-function changeEventHandlerQuantity(event) {
-    if(!event.target.value) alert("Merci d'indiquer la quantité souhaitée");
-    else {
-        alert("L'article a été positionné dans votre panier");
 
-        const productQuantity = JSON.stringify(changeEventHandlerQuantity);
-        localStorage.setItem(product.quantity, productQuantity);
-    }
-}
 
 // Activation du bouton Ajouter dans le panier
 const boutonAjouterPanier = document.getElementById("addToCart");
     boutonAjouterPanier.addEventListener("click", function eventOnClick() {
-        console.log("clic");
 
-        const productStringify = JSON.stringify(product);
-        localStorage.setItem(product._id, productStringify);
+        // Création du tableau répertoriant les éléments du Panier
+        
+    
+
+        console.table(product);
+
+        let productStringify = JSON.stringify(product);
+        localStorage.setItem("product", productStringify);
+
+        window.location.href ="cart.html";
 
 });
-
-
-
-
-
-
-
-
-
 
 
     //Lors du clic sur le bouton :
@@ -145,3 +140,5 @@ const boutonAjouterPanier = document.getElementById("addToCart");
     //    10- Gérer le montant total du Panier
     //    11- Gérer la suppression et l'ajout dans le tableau Panier
     //    12- Faire apparaître tous les éléments souhaités sur la page Panier
+
+
