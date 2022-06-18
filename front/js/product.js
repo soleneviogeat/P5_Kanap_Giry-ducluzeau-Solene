@@ -86,23 +86,21 @@ let price = document.getElementById("price");
 let id = getProductId();*/
 
 
-
-
-
-//let quantity = document.getElementById("quantity").value;
-
-
 // Récupération de la couleur sélectionnée 
 
 document.addEventListener("change", function(event) {
     const color = document.querySelector("#colors").value;
     product.colorSelected = color;
-})
+});
 
 
 // Récupération de la quantité saisie
 
 
+document.addEventListener("change", function(event) {
+    const quantity = document.getElementById("quantity").value;
+    product.quantitySelected = quantity;
+});
 
 // Activation du bouton Ajouter dans le panier
 const boutonAjouterPanier = document.getElementById("addToCart");
