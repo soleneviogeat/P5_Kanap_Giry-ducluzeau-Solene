@@ -1,76 +1,78 @@
 /* 8- Afficher un tableau récapitulatif des achats dans la page Panier */
 
 
-function getProductCart() {
-    
-    const productGetItem = localStorage.getItem("product");
+let cart = JSON.parse(localStorage.getItem("productAddCart"));
+console.table(cart);
 
-    const productParse = JSON.parse(productGetItem);
-
-};
-
-getProductCart();
 
 //Afficher les éléments qui doivent apparaitre sur la page Panier
 
-function seeProductCart(products) {
-        for (let i in products) {
-            const product = productParse[i];
+function seeProductCart() {
+    for (let i in cart) {
+        const product = cart[i];
 
-            const article = document.createElement("article");
-            article.classList.add("cart__item");
-            //article.textContent = product.name;
-            document.querySelector(".cart_items").appendChild(article);
+        const article = document.createElement("article");
+        article.classList.add("cart__item");
+        document.querySelector("#cart__items").appendChild(article);
+        
 
-            const cartItemImg = document.createElement("div");
-            article.classList.add("cart__item__img");
-            document.querySelector(".cart__item").appendChild(cartItemImg);
+        const cartItemImg = document.createElement("div");
+        article.classList.add("cart__item__img");
+        document.querySelector(".cart__item").appendChild(cartItemImg);
 
-            const cartImage = document.createElement("img");
-            img.appendChild(cartImage);
-            cartImage.src = product.imageUrl;
-            cartImage.alt = product.altTxt;
+        const cartImage = document.createElement("img");
+        document.querySelector(".cart__item__img").appendChild(cartImage);
+        cartImage.setAttribute("src", product.image);
+        cartImage.alt = product.altTxt;
 
-            const cartItemContent = document.createElement("div");
-            article.classList.add("cart__item__content");
-            document.querySelector(".cart__item").appendChild(cartItemContent);
-            
-            const cartItemContentDescription = document.createElement("div");
-            article.classList.add("cart__item__content__description");
-            document.querySelector(".cart__item__content").appendChild(cartItemContentDescription);
+        const cartItemContent = document.createElement("div");
+        article.classList.add("cart__item__content");
+        document.querySelector(".cart__item").appendChild(cartItemContent);
+        
+        const cartItemContentDescription = document.createElement("div");
+        article.classList.add("cart__item__content__description");
+        document.querySelector(".cart__item__content").appendChild(cartItemContentDescription);
 
-            const cartTitle = document.getElementById("title");
-            cartTitle.textContent = product.name;
+        const cartTitle = document.createElement("h2");
+        cartTitle.innerHTML = product.name;
+        document.querySelector(".cart__item__content__description").appendChild(cartTitle);
 
-            const cartColors = document.getElementById("color");
-            cartColors.textContent = colors;
 
-            const cartPrice = document.getElementById("price");
-            cartPrice.textContent = product.price;
+        const cartColors = document.createElement("p");
+        cartColors.innerHTML = product.color;
+        document.querySelector(".cart__item__content__description").appendChild(cartColors);
 
-            const cartItemContentSettings = document.createElement("div");
-            article.classList.add("cart__item__content__settings");
-            document.querySelector(".cart__item__content").appendChild(cartItemContentSettings);
 
-            const cartItemContentSettingsQuantity = document.createElement("div");
-            article.classList.add("cart__item__content__settings__quantity");
-            document.querySelector(".cart__item__content__settings").appendChild(cartItemContentSettingsQuantity);
+        const cartPrice = document.createElement("p");
+        cartPrice.innerHTML = product.price + " €";
+        document.querySelector(".cart__item__content__description").appendChild(cartPrice);
 
-            const p = document.createElement("p");
-            //p.textContent = product.name;
-            document.querySelector(".cart__item__content__settings").appendChild(p);
 
-            const input = document.createElement("input");
-            //p.textContent = product.name;
-            document.querySelector(".cart__item__content__settings").appendChild(input);
+        const cartItemContentSettings = document.createElement("div");
+        article.classList.add("cart__item__content__settings");
+        document.querySelector(".cart__item__content").appendChild(cartItemContentSettings);
 
-            const cartItemContentSettingsDelete = document.createElement("div");
-            article.classList.add("cart__item__content__settings__delete");
-            document.querySelector(".cart__item__content__settings").appendChild(cartItemContentSettingsDelete);
+        const cartItemContentSettingsQuantity = document.createElement("div");
+        article.classList.add("cart__item__content__settings__quantity");
+        document.querySelector(".cart__item__content__settings").appendChild(cartItemContentSettingsQuantity);
 
-            const deleteItem = document.createElement("p");
-            article.classList.add("deleteItem");
-            document.querySelector(".cart__item__content__settings__delete").appendChild(deleteItem);
+        const p = document.createElement("p");
+        p.innerHTML = "Qté : ";
+        document.querySelector(".cart__item__content__settings__quantity").appendChild(p);
+
+        const input = document.createElement("input");
+        input.value = product.quantity;
+        document.querySelector(".cart__item__content__settings__quantity").classList.add("itemQuantity");
+        document.querySelector(".cart__item__content__settings__quantity").appendChild(input);
+
+        const cartItemContentSettingsDelete = document.createElement("div");
+        article.classList.add("cart__item__content__settings__delete");
+        document.querySelector(".cart__item__content__settings").appendChild(cartItemContentSettingsDelete);
+
+        const deleteItem = document.createElement("p");
+        document.querySelector(".cart__item__content__settings__delete").classList.add("deleteItem");
+        document.querySelector(".cart__item__content__settings__delete").appendChild(deleteItem);
+        deleteItem.innerHTML = "Supprimer";
         }
     }
 

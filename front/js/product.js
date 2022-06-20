@@ -87,7 +87,6 @@ let id = getProductId();*/
 
 
 // Récupération de la couleur sélectionnée 
-
 document.addEventListener("change", function(event) {
     const color = document.querySelector("#colors").value;
     product.colorSelected = color;
@@ -95,8 +94,6 @@ document.addEventListener("change", function(event) {
 
 
 // Récupération de la quantité saisie
-
-
 document.addEventListener("change", function(event) {
     const quantity = document.getElementById("quantity").value;
     product.quantitySelected = quantity;
@@ -107,36 +104,70 @@ const boutonAjouterPanier = document.getElementById("addToCart");
     boutonAjouterPanier.addEventListener("click", function eventOnClick() {
 
         // Création du tableau répertoriant les éléments du Panier
-        
+        let productAdded = {
+            id: product._id,
+            name: product.name,
+            image: product.imageUrl,
+            altTxt: product.altTxt,
+            price: product.price,
+            description: product.description,
+            color: product.colorSelected,
+            quantity: product.quantitySelected
+        };
+
+       //let productStringify = JSON.stringify(productAdded);
+        //localStorage.setItem("product", productStringify);
+
+    if (validator(product)) {
+            //window.location.href ="cart.html";
+        }
+
+
+    function validator(product) {
+        console.log(product);
+        if (product.colorSelected === undefined) {
+            alert("Merci de sélectionner une couleur")
+            return false
+        } else if (product.quantitySelected < 1) {
+            alert("Merci de renseigner une quantité")
+            return false
+        } else { 
+            return true
+        }
+    }
+
+
+
+
     
+    /*if (productLocalStorage && productLocalStorage.id === productAdded.id && productLocalStorage.color === productAdded.color) {
+        //Si le produit commandé est déjà dans le panier
+        let newQuantity = productAdded.quantity + resultFind.quantity;
+        resultFind.quantity = newQuantity;
+        localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
+        console.table(productLocalStorage);
+           
+    //Si le produit commandé n'est pas dans le panier ou si le panier est vide
+    } else {
+        productLocalStorage =[];
+        productLocalStorage.push(productAdded);
+        localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
+        console.table(productLocalStorage);
+    }*/
+            
+   
 
-        console.table(product);
-
-        let productStringify = JSON.stringify(product);
-        localStorage.setItem("product", productStringify);
-
-        window.location.href ="cart.html";
-
+/* Dans le LOCAL STORAGE, si PRODUCT + couleur n'existe pas alors METTRE le PRODUCT sélectionné dans le LOCAL STORAGE
+SINON SI même PRODUCT + même COULEUR existe incrémenter la quantité de la QUANTITE saisie et ne rien rajouter dans le LOCAL STORAGE
+SINON SI même PRODUCT avec une autre couleur, créer un nouveau PRODUCT pour faire une ligne différente et ajouter le PRODUCT dans le LOCAL STORAGE
+*/
+//Lors du clic sur le bouton :
+//       Pour que les éléments apparaissent dans la page Panier, il faut :
+//    7- Créer une clé pour rendre chaque article unique : id + couleur
+//    8- Si Panier contient déjà la clé à ajouter, alors incrémenter la quantité de cette clé
+//    9- Si Panier ne contient pas la clé, alors ajouter la clé id+couleur au Panier avec la quantité 1
+//    PAGE PANIER :
+//    10- Gérer le montant total du Panier
+//    11- Gérer la suppression et l'ajout dans le tableau Panier
+//    12- Faire apparaître tous les éléments souhaités sur la page Panier
 });
-
-
-    //Lors du clic sur le bouton :
-    //    1- Transformer les éléments de la variable 'product' en string
-    //    2- Stocker tous ces éléments dans le cache navigateur (Local Storage)
-    //    3- Remettre les éléments sous leurs format d'origine
-    //    4- Récupérer les éléments dans le Local Storage
-
-    //       Pour que les éléments apparaissent dans la page Panier, il faut :
-    //    5- Voir comment faire pour récupérer la couleur sélectionnée par le client
-    //    6- Voir comment faire pour récupérer la quantité saisie par le client
-    //    7- Créer une clé pour rendre chaque article unique : id + couleur
-    
-    //    8- Si Panier contient déjà la clé à ajouter, alors incrémenter la quantité de cette clé
-    //    9- Si Panier ne contient pas la clé, alors ajouter la clé id+couleur au Panier avec la quantité 1
-
-    //    PAGE PANIER :
-    //    10- Gérer le montant total du Panier
-    //    11- Gérer la suppression et l'ajout dans le tableau Panier
-    //    12- Faire apparaître tous les éléments souhaités sur la page Panier
-
-
