@@ -7,9 +7,11 @@ console.table(cart);
 
 //Afficher les éléments qui doivent apparaitre sur la page Panier
 
+let product = "";
+
 function seeProductCart() {
     for (let i in cart) {
-        const product = cart[i];
+        product = cart[i];
 
         const article = document.createElement("article");
         article.classList.add("cart__item");
@@ -77,3 +79,9 @@ function seeProductCart() {
     }
 
 seeProductCart();
+
+
+
+
+
+

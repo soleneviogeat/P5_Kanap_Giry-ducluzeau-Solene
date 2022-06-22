@@ -115,11 +115,11 @@ const boutonAjouterPanier = document.getElementById("addToCart");
             quantity: product.quantitySelected
         };
 
-       //let productStringify = JSON.stringify(productAdded);
-        //localStorage.setItem("product", productStringify);
+    //let productStringify = JSON.stringify(productAdded);
+    //localStorage.setItem("product", productStringify);
 
     if (validator(product)) {
-            //window.location.href ="cart.html";
+            window.location.href ="cart.html";
         }
 
 
@@ -138,22 +138,58 @@ const boutonAjouterPanier = document.getElementById("addToCart");
 
 
 
-
+    //Initialisation du local storage
+    let productLocalStorage = JSON.parse(localStorage.getItem("productAddCart"));
     
-    /*if (productLocalStorage && productLocalStorage.id === productAdded.id && productLocalStorage.color === productAdded.color) {
-        //Si le produit commandé est déjà dans le panier
-        let newQuantity = productAdded.quantity + resultFind.quantity;
-        resultFind.quantity = newQuantity;
-        localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
-        console.table(productLocalStorage);
-           
-    //Si le produit commandé n'est pas dans le panier ou si le panier est vide
-    } else {
+    
+    //Importation dans le local storage
+    //Si le panier comporte déjà au moins 1 article
+
+    /*productLocalStorage.forEach((productLocalStorage, index) => {
+        //if (product.id === productCart.id && product.color === productCart.color){
+        .then(function(res) {
+            if (res.ok && product.id === productLocalStorage.id && product.color === productLocalStorage.color) {
+                productLocalStorage();
+                productLocalStorage.quantity = productLocalStorage.quantity + product.quantity
+                return res.json();
+            }
+        })
+        .then(function(value) {
+            console.log(value);
+        })
+        .catch(function(err) {
+            // Une erreur est survenue
+        });
+    }    //Si le produit commandé n'est pas dans le panier ou si le panier est vide
+    else {
         productLocalStorage =[];
         productLocalStorage.push(productAdded);
         localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
         console.table(productLocalStorage);
-    }*/
+    }
+});*/
+      
+    if (productLocalStorage == null) {
+        let productLocalStorage = [productAdded]
+        localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
+        
+    }
+    /*productAdded.forEach((productAdded, index) => {
+        if(product.id === productAdded.id && product.color === productAdded.color) {
+            let productLocalStorage = JSON.parse(productAdded);
+            productAdded.quantity = productAdded.quantity + product.quantity;
+        } */
+        //Si le produit commandé n'est pas dans le panier ou si le panier est vide
+        else {
+            let productLocalStorage =[];
+            productLocalStorage.push(productAdded);
+            localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
+
+            console.table(productLocalStorage);
+        }
+    });
+    
+
             
    
 
@@ -170,4 +206,3 @@ SINON SI même PRODUCT avec une autre couleur, créer un nouveau PRODUCT pour fa
 //    10- Gérer le montant total du Panier
 //    11- Gérer la suppression et l'ajout dans le tableau Panier
 //    12- Faire apparaître tous les éléments souhaités sur la page Panier
-});
