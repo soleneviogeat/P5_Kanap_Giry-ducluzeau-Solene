@@ -1,7 +1,7 @@
 /* 8- Afficher un tableau récapitulatif des achats dans la page Panier */
 
 
-let cart = JSON.parse(localStorage.getItem("productAddCart"));
+let cart = JSON.parse(localStorage.getItem("productsAddCart"));
 console.table(cart);
 
 

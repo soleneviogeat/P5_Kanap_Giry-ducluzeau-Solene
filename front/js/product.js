@@ -115,14 +115,13 @@ const boutonAjouterPanier = document.getElementById("addToCart");
             quantity: product.quantitySelected
         };
 
-    //let productStringify = JSON.stringify(productAdded);
-    //localStorage.setItem("product", productStringify);
-
+    //Mise en fonction du changement du page lors du clic sur le bouton "Ajouter au panier"
     if (validator(product)) {
             window.location.href ="cart.html";
         }
 
-
+    
+    //Messages d'alerte en cas de non sélection dela couleur ou de la quantité
     function validator(product) {
         console.log(product);
         if (product.colorSelected === undefined) {
@@ -136,92 +135,31 @@ const boutonAjouterPanier = document.getElementById("addToCart");
         }
     }
 
-
-
-    //Initialisation du local storage
-    
-    function addToCart(productClicked) {
-        const productLocalStorage = JSON.parse(localStorage.getItem("productsAddCart"));
-        const newArray = [];
-
-        productLocalStorage.forEach(product => {
-            if(product.id === productClicked.id) {
-                const object = {
-                    id: productClicked.id,
-                    color: productClicked.color,
-                    quantity: productClicked.quantity
-                }
-                newArray.push(object);
-            } else {
-                newArray.push(product);
-            }
-        });
-        localStorage.setItem("productsAddCart", JSON.stringify(newArray));
-    }
-
-    addToCart();
-    
     //Importation dans le local storage
-    //Si le panier comporte déjà au moins 1 article
-
-    /*productLocalStorage.forEach((productLocalStorage, index) => {
-        //if (product.id === productCart.id && product.color === productCart.color){
-        .then(function(res) {
-            if (res.ok && product.id === productLocalStorage.id && product.color === productLocalStorage.color) {
-                productLocalStorage();
-                productLocalStorage.quantity = productLocalStorage.quantity + product.quantity
-                return res.json();
+    let cart = localStorage.getItem("productsAddCart");
+    
+    //Si le panier est vide
+    
+    if (cart == null) {
+        cart = [productAdded]
+        localStorage.setItem("productsAddCart", JSON.stringify(cart));
+    }
+    //Si le produit commandé est déjà dans le panier
+    else {
+        cart = JSON.parse(cart);
+        let productFindLocalStorage = false;
+        cart.forEach((productCart, index) => {
+            if (productAdded.name == productCart.name && productAdded.color == productCart.color && productFindLocalStorage == false) {
+                productCart.quantity = parseInt(productCart.quantity) + parseInt(productAdded.quantity);
+                productFindLocalStorage = true
             }
         })
-        .then(function(value) {
-            console.log(value);
-        })
-        .catch(function(err) {
-            // Une erreur est survenue
-        });
-    }    //Si le produit commandé n'est pas dans le panier ou si le panier est vide
-    else {
-        productLocalStorage =[];
-        productLocalStorage.push(productAdded);
-        localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
-        console.table(productLocalStorage);
+        //Si le panier comporte déjà au moins 1 article ou si le produit commandé n'est pas dans le panier
+        if (productFindLocalStorage == false) {
+            cart.push(productAdded);
+        }
+
+        localStorage.setItem("productsAddCart", JSON.stringify(cart))
     }
-});
-      
-    if (productLocalStorage == null) {
-        let productLocalStorage = [productAdded]
-        localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
-        
-    }*/
-    /*productAdded.forEach((productAdded, index) => {
-        if(product.id === productAdded.id && product.color === productAdded.color) {
-            let productLocalStorage = JSON.parse(productAdded);
-            productAdded.quantity = productAdded.quantity + product.quantity;
-        } 
-        //Si le produit commandé n'est pas dans le panier ou si le panier est vide
-        else {
-            let productLocalStorage =[];
-            productLocalStorage.push(productAdded);
-            localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
+    })
 
-            console.table(productLocalStorage);
-        }*/
-    });
-    
-
-            
-   
-
-/* Dans le LOCAL STORAGE, si PRODUCT + couleur n'existe pas alors METTRE le PRODUCT sélectionné dans le LOCAL STORAGE
-SINON SI même PRODUCT + même COULEUR existe incrémenter la quantité de la QUANTITE saisie et ne rien rajouter dans le LOCAL STORAGE
-SINON SI même PRODUCT avec une autre couleur, créer un nouveau PRODUCT pour faire une ligne différente et ajouter le PRODUCT dans le LOCAL STORAGE
-*/
-//Lors du clic sur le bouton :
-//       Pour que les éléments apparaissent dans la page Panier, il faut :
-//    7- Créer une clé pour rendre chaque article unique : id + couleur
-//    8- Si Panier contient déjà la clé à ajouter, alors incrémenter la quantité de cette clé
-//    9- Si Panier ne contient pas la clé, alors ajouter la clé id+couleur au Panier avec la quantité 1
-//    PAGE PANIER :
-//    10- Gérer le montant total du Panier
-//    11- Gérer la suppression et l'ajout dans le tableau Panier
-//    12- Faire apparaître tous les éléments souhaités sur la page Panier
