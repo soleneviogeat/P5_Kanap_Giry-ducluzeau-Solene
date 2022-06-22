@@ -80,7 +80,35 @@ function seeProductCart() {
 
 seeProductCart();
 
+//Afficher le montant total du panier
+//Récupération des quantités pour afficher le nombre d'articles
+let totalQuantitySelected = [product.quantity];
+let sumQuantity = 0
 
+for (let i = 0; i < totalQuantitySelected.length; i++) {
+    sumQuantity = sumQuantity += totalQuantitySelected[i];
+    let totalQuantity = document.getElementById('totalQuantity');
+    totalQuantity.innerHTML = sumQuantity
+}
+
+//Récupération des montants pour afficher le montant total du panier
+//Montant total = quantité sélectionnée * prix => pour chaque produit
+// Somme des [quantité sélectionnée * prix] de chaque produit
+
+let amountTotalProduct = 0
+
+for (let product of cart) {
+    amountTotalProduct = product.quantity * product.price;
+}
+
+let amountTotal = [amountTotalProduct];
+let totalCart = 0
+
+for (let i = 0; i < amountTotal.length; i++) {
+    totalCart = totalCart += amountTotal[i];
+    let totalPrice = document.getElementById('totalPrice');
+    totalPrice.innerHTML = totalCart
+}
 
 
 

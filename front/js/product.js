@@ -139,8 +139,27 @@ const boutonAjouterPanier = document.getElementById("addToCart");
 
 
     //Initialisation du local storage
-    let productLocalStorage = JSON.parse(localStorage.getItem("productAddCart"));
     
+    function addToCart(productClicked) {
+        const productLocalStorage = JSON.parse(localStorage.getItem("productsAddCart"));
+        const newArray = [];
+
+        productLocalStorage.forEach(product => {
+            if(product.id === productClicked.id) {
+                const object = {
+                    id: productClicked.id,
+                    color: productClicked.color,
+                    quantity: productClicked.quantity
+                }
+                newArray.push(object);
+            } else {
+                newArray.push(product);
+            }
+        });
+        localStorage.setItem("productsAddCart", JSON.stringify(newArray));
+    }
+
+    addToCart();
     
     //Importation dans le local storage
     //Si le panier comporte déjà au moins 1 article
@@ -167,18 +186,18 @@ const boutonAjouterPanier = document.getElementById("addToCart");
         localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
         console.table(productLocalStorage);
     }
-});*/
+});
       
     if (productLocalStorage == null) {
         let productLocalStorage = [productAdded]
         localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
         
-    }
+    }*/
     /*productAdded.forEach((productAdded, index) => {
         if(product.id === productAdded.id && product.color === productAdded.color) {
             let productLocalStorage = JSON.parse(productAdded);
             productAdded.quantity = productAdded.quantity + product.quantity;
-        } */
+        } 
         //Si le produit commandé n'est pas dans le panier ou si le panier est vide
         else {
             let productLocalStorage =[];
@@ -186,7 +205,7 @@ const boutonAjouterPanier = document.getElementById("addToCart");
             localStorage.setItem("productAddCart", JSON.stringify(productLocalStorage));
 
             console.table(productLocalStorage);
-        }
+        }*/
     });
     
 
