@@ -78,14 +78,7 @@ function getProductDetails(product) {
 }
 
 
-
 /* 7- Ajouter des produits dans le panier */
-
-/*let name = document.getElementById("title");
-let price = document.getElementById("price");
-let id = getProductId();*/
-
-
 // Récupération de la couleur sélectionnée 
 document.addEventListener("change", function(event) {
     const color = document.querySelector("#colors").value;
@@ -115,24 +108,22 @@ const boutonAjouterPanier = document.getElementById("addToCart");
             quantity: product.quantitySelected
         };
 
-    //Mise en fonction du changement du page lors du clic sur le bouton "Ajouter au panier"
-    if (validator(product)) {
-        
-            window.location.href ="cart.html";
-        }
 
-    
-    //Messages d'alerte en cas de non sélection dela couleur ou de la quantité
-    function validator(product) {
-        console.log(product);
-        if (product.colorSelected === undefined) {
+
+    //Mise en fonction du changement du page lors du clic sur le bouton "Ajouter au panier"
+    //Messages d'alerte en cas de non sélection de la couleur ou de la quantité
+    const popupValidation =() =>{
+        if (product.colorSelected == null || product.colorSelected === 0 || product.colorSelected === "0" || product.colorSelected === "" || product.colorSelected == undefined) {
             alert("Merci de sélectionner une couleur")
-            return false
+          
         } else if (product.quantitySelected < 1) {
             alert("Merci de renseigner une quantité")
-            return false
-        } else { 
-            return true
+           
+        } else if(window.confirm(`Votre commande de ${product.quantitySelected} ${product.name} ${product.colorSelected} est ajoutée au panier :
+        - pour consulter votre panier, cliquez sur OK
+        - pour continuer vos achats, cliquez sur Annuler`)){
+            localStorage.setItem("productsAddCart", JSON.stringify(cart))
+            window.location.href ="cart.html";
         }
     }
 
@@ -143,7 +134,7 @@ const boutonAjouterPanier = document.getElementById("addToCart");
     
     if (cart == null) {
         cart = [productAdded]
-        localStorage.setItem("productsAddCart", JSON.stringify(cart));
+        popupValidation();
     }
     //Si le produit commandé est déjà dans le panier
     else {
@@ -153,13 +144,14 @@ const boutonAjouterPanier = document.getElementById("addToCart");
             if (productAdded.name === productCart.name && productAdded.color === productCart.color) {
                 productCart.quantity = parseInt(productCart.quantity) + parseInt(productAdded.quantity);
                 productFoundOnLocalStorage = true
+                popupValidation();
             }
         })
         //Si le panier comporte déjà au moins 1 article ou si le produit commandé n'est pas dans le panier
         if (productFoundOnLocalStorage == false) {
             cart.push(productAdded);
+            popupValidation();
         }
-        localStorage.setItem("productsAddCart", JSON.stringify(cart))
     }
-    })
+});
 
