@@ -75,41 +75,45 @@ function seeProductCart() {
         document.querySelector(".cart__item__content__settings__delete").classList.add("deleteItem");
         document.querySelector(".cart__item__content__settings__delete").appendChild(deleteItem);
         deleteItem.innerHTML = "Supprimer";
-        }
     }
+}
 
 seeProductCart();
 
 //Afficher le montant total du panier
 //Récupération des quantités pour afficher le nombre d'articles
-let totalQuantitySelected = [product.quantity];
+let quantity = [];
+
+JSON.parse(localStorage.getItem("productsAddCart")).forEach(product => {
+    quantity.push(parseInt(product.quantity))
+});
+
 let sumQuantity = 0
 
-for (let i = 0; i < totalQuantitySelected.length; i++) {
-    sumQuantity = sumQuantity += totalQuantitySelected[i];
-    let totalQuantity = document.getElementById('totalQuantity');
-    totalQuantity.innerHTML = sumQuantity
+for (let i = 0; i < quantity.length; i++) {
+    sumQuantity = sumQuantity + quantity[i];
 }
+
+let productTotalQuantity = document.getElementById('totalQuantity');
+productTotalQuantity.innerHTML = sumQuantity;
+
 
 //Récupération des montants pour afficher le montant total du panier
 //Montant total = quantité sélectionnée * prix => pour chaque produit
 // Somme des [quantité sélectionnée * prix] de chaque produit
+let price = [];
+let amountTotal = 0
 
-let amountTotalProduct = 0
+JSON.parse(localStorage.getItem("productsAddCart")).forEach(product => {
+    amountTotal = parseInt(product.quantity) * product.price;
+    price.push(amountTotal)
+});
 
-for (let product of cart) {
-    amountTotalProduct = product.quantity * product.price;
-}
-
-let amountTotal = [amountTotalProduct];
 let totalCart = 0
 
-for (let i = 0; i < amountTotal.length; i++) {
-    totalCart = totalCart += amountTotal[i];
-    let totalPrice = document.getElementById('totalPrice');
-    totalPrice.innerHTML = totalCart
+for (let i = 0; i < price.length; i++) {
+    totalCart = totalCart + price[i]; 
 }
 
-
-
-
+let totalPrice = document.getElementById('totalPrice');
+totalPrice.innerHTML = totalCart;
