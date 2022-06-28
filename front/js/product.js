@@ -122,8 +122,10 @@ const boutonAjouterPanier = document.getElementById("addToCart");
         } else if(window.confirm(`Votre commande de ${product.quantitySelected} ${product.name} ${product.colorSelected} est ajoutée au panier :
         - pour consulter votre panier, cliquez sur OK
         - pour continuer vos achats, cliquez sur Annuler`)){
-            localStorage.setItem("productsAddCart", JSON.stringify(cart))
-            window.location.href ="cart.html";
+            localStorage.setItem("productsAddCart", JSON.stringify(cart));
+            window.location.href ="/front/html/cart.html"
+        } else {
+            localStorage.setItem("productsAddCart", JSON.stringify(cart));
         }
     }
 
@@ -154,4 +156,3 @@ const boutonAjouterPanier = document.getElementById("addToCart");
         }
     }
 });
-

@@ -13,7 +13,7 @@ function productsTableIndex() {
       return value;
     })
     .catch(function(err) {
-      console.log("Une erreur est survenue");
+      alert("Une erreur est survenue : " + err.message);
     });
 }
 
@@ -22,8 +22,7 @@ function displayProduct() {
   // mettre dans une variable la récupération de la section avec l'id items dans le DOM
   const section = document.getElementById("items");
 
-  //créer une constante de chaque enfant de la balise "section"
-  
+  // Créer une constante de chaque enfant de la balise "section"
   productsTableIndex().then((products) => {
     for (let i in products) {
       const product = products[i]; //un élément = à l'index i du tableau products
