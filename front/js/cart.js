@@ -266,7 +266,56 @@ function errorMsgForm() {
 errorMsgForm();
 
 
+//Envoi des informations client au localstorage
+function sendOrder(){
+    const btnOrder = document.getElementById("order");
 
+    btnOrder.addEventListener("click", (event)=>{
+
+        //Constitution d'un tableau de produit
+        let idProducts = [];
+        for (let i = 0; i<product.length;i++) {
+            idProducts.push(product[i].id);
+        }
+
+        //Constitution de l'objet Contact
+        const order = {
+            contact : {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                email: document.getElementById('email').value,
+            },
+            products: idProducts,
+        } 
+
+        //Envoi des éléments de la commande au service web
+
+        fetch("http://localhost:3000/api/products/order", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json', 
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify(order)
+        })
+
+            .then((response) => response.json())
+
+            .then(function(data) {
+                localStorage.clear();
+                localStorage.setItem("orderId", data.orderId);
+
+                document.location.href = "/front/html/confirmation.html";
+            })
+
+            .catch(function(err) {
+                alert("Une erreur est survenue : " + err.message);
+            })        
+    })
+}
+sendOrder();
 
 
 
