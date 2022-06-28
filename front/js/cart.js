@@ -172,3 +172,103 @@ function deleteProductCart() {
 deleteProductCart();
 
 
+/* 10- Passer la commande */
+/* Instauration des regex dans le formulaire de la page Panier */
+function errorMsgForm() {
+    // Ajout des Regex
+    let form = document.querySelector(".cart__order__form");
+
+    //Création des expressions régulières
+    let emailRegExp = new RegExp("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-zA-Z]{2,10}$");
+    let charRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç '-]+$");
+    let addressRegExp = new RegExp("^[0-9]{1,4}(?:(?:[,. ]){1}[a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
+
+    // Evènement saisie prénom
+    function validationFirstName(inputFirstName) {
+        let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+    
+        if (charRegExp.test(inputFirstName.value)) {
+            firstNameErrorMsg.innerHTML = "";
+        } else {
+            firstNameErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre prénom.";
+        }
+    };
+
+    form.firstName.addEventListener("change", function() {
+        validationFirstName(this);
+    });
+    
+
+    // Evènement saisie nom
+    function validationLastName(inputLastName) {
+        let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+    
+        if (charRegExp.test(inputLastName.value)) {
+            lastNameErrorMsg.innerHTML = "";
+        } else {
+            lastNameErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre nom.";
+        }
+    };
+
+    form.lastName.addEventListener("change", function() {
+        validationLastName(this);
+    });
+
+
+    // Evènement saisie adresse
+    function validationAddress(inputAddress) {
+        let addressErrorMsg = document.getElementById("addressErrorMsg");
+
+        if (addressRegExp.test(inputAddress.value)) {
+            addressErrorMsg.innerHTML = "";
+        } else {
+            addressErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre adresse.";
+        }
+    };
+
+    form.address.addEventListener("change", function() {
+        validationAddress(this);
+    });
+
+
+    // Evènement saisie ville
+    function validationCity(inputCity) {
+        let cityErrorMsg = document.getElementById("cityErrorMsg");
+    
+        if (charRegExp.test(inputCity.value)) {
+            cityErrorMsg.innerHTML = "";
+        } else {
+            cityErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre ville.";
+        }
+    };
+
+    form.city.addEventListener("change", function() {
+        validationCity(this);
+    });
+
+
+    // Evènement saisie email
+    function validationEmail(inputEmail) {
+        let emailErrorMsg = document.getElementById("emailErrorMsg");
+    
+        if (emailRegExp.test(inputEmail.value)) {
+            emailErrorMsg.innerHTML = "";
+        } else {
+            emailErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre email.";
+        }
+    };
+
+    form.email.addEventListener("change", function() {
+        validationEmail(this);
+    });
+}
+errorMsgForm();
+
+
+
+
+
+
+
+
