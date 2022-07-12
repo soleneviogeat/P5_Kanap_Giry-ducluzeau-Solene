@@ -34,15 +34,16 @@ function getProductTable() {
             return res.json();
         }
     })
+
     .then(function(productsApi) {
         product = productsApi;
         if (product){
             getProductDetails(product);
         }
-        
     })
+
     .catch(function(err) {
-        console.log("Une erreur est survenue", err);
+        console.log("Une erreur est survenue" + err.message);
     })
 }
 
@@ -99,14 +100,37 @@ const boutonAjouterPanier = document.getElementById("addToCart");
         // Création du tableau répertoriant les éléments du Panier
         let productAdded = {
             id: product._id,
-            name: product.name,
-            image: product.imageUrl,
-            altTxt: product.altTxt,
-            price: product.price,
-            description: product.description,
+            //name: product.name,
+            //image: product.imageUrl,
+            /*altTxt: product.altTxt,*/
+            //price: product.price,
+            //description: product.description,
             color: product.colorSelected,
             quantity: product.quantitySelected
         };
+
+
+        /* Envoi du prix via l'API (et non en local)
+        function priceAdded() {
+            //const productId = getProductId();
+            fetch("http://localhost:3000/api/products/")
+        
+            .then(function(res) {
+                if(res.ok) {
+                    return res.json();
+                }
+            })
+
+            .then(function(value) {
+                console.log(product.price);
+            })
+
+            .catch(function(err) {
+                console.log("Une erreur est survenue ", err);
+            })
+        }
+
+        priceAdded();*/
 
 
 

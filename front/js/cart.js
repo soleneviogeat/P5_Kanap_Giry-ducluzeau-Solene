@@ -5,18 +5,93 @@ let cart = JSON.parse(localStorage.getItem("productsAddCart"));
 console.table(cart);
 
 
+// Envoi du prix via l'API (et non en local)
+
+/*const myPrice = document.getElementById("price");
+
+function priceAdded() {
+    //const productPrice = cart.price;
+    fetch("http://localhost:3000/api/products/")
+
+    .then(function(res) {
+        if(res.ok) {
+            return res.json();
+        }
+    })
+
+    .then(function(value) {
+        console.log(value.price)
+        //for (let i = 0; i < value.length; i++)
+            //if(value[i] = cart[i])
+            //console.log(value[i].price)
+            if (product.price){
+                seeProductCart(cartPrice);
+            }
+    })
+
+    .catch(function(err) {
+        //console.log("Une erreur est survenue " + err.message);
+    })
+}
+
+priceAdded();*/
+
+
+
+
 //Afficher les éléments qui doivent apparaitre sur la page Panier
 
-let product = "";
+let product = ""; 
+/*let quantityAndPrice = {
+    quantity: [],
+    price: []
+}
 
-function seeProductCart() {
+let price = [];
+let amountTotal = 0
+
+async function seeProductCart() {
+    for (let i in cart) {
+        product = cart[i];
+        await fetch("http://localhost:3000/api/products/" + cart[i].id)
+        .then((res)=> {
+            if (res) {
+                return res.json()
+            }
+        }).then((productFromApi) => {
+        
+
+            amountTotal = parseInt(cart[i].quantity) * productFromApi.price;
+            console.log(amountTotal)
+            price.push(amountTotal)*/
+
+function fetchPrice() {
+    fetch("http://localhost:3000/api/products/" + product.id)
+
+    .then((res)=> {
+        if (res) {
+            return res.json()
+        }
+    })
+    
+    .then((productFromApi) => {
+        if (productFromApi){
+            seeProductCart(productFromApi);
+    }
+        console.log(productFromApi)
+        
+    })
+}
+//console.log(cart)
+//fetchPrice();
+function seeProductCart(productFromApi) {
+
     for (let i in cart) {
         product = cart[i];
 
         const article = document.createElement("article");
         article.classList.add("cart__item");
         document.getElementById("cart__items").appendChild(article);
-        
 
         const cartItemImg = document.createElement("div");
         cartItemImg.classList.add("cart__item__img");
@@ -24,8 +99,8 @@ function seeProductCart() {
 
         const cartImage = document.createElement("img");
         cartItemImg.appendChild(cartImage);
-        cartImage.setAttribute("src", product.image);
-        cartImage.alt = product.altTxt;
+        cartImage.setAttribute("src", cart[i].image);
+        cartImage.alt = cart[i].altTxt;
 
         const cartItemContent = document.createElement("div");
         cartItemContent.classList.add("cart__item__content");
@@ -41,15 +116,13 @@ function seeProductCart() {
 
 
         const cartColors = document.createElement("p");
-        cartColors.innerHTML = product.color;
+        cartColors.innerHTML = cart[i].color;
         cartItemContentDescription.appendChild(cartColors);
-
-
+        
         const cartPrice = document.createElement("p");
-        cartPrice.innerHTML = product.price + " €";
+        cartPrice.innerHTML = productFromApi.price + " €";
         cartItemContentDescription.appendChild(cartPrice);
-
-
+        
         const cartItemContentSettings = document.createElement("div");
         cartItemContentSettings.classList.add("cart__item__content__settings");
         cartItemContent.appendChild(cartItemContentSettings);
@@ -68,7 +141,7 @@ function seeProductCart() {
         input.name = "itemQuantity";
         input.min = 1;
         input.max = 100;
-        input.setAttribute("value", product.quantity);
+        input.setAttribute("value", cart[i].quantity);
         cartItemContentSettingsQuantity.appendChild(input);
 
         const cartItemContentSettingsDelete = document.createElement("div");
@@ -79,7 +152,8 @@ function seeProductCart() {
         deleteItem.classList.add("deleteItem");
         cartItemContentSettingsDelete.appendChild(deleteItem);
         deleteItem.innerHTML = "Supprimer";
-    }
+    }       
+    
 }
 
 seeProductCart();
@@ -105,22 +179,51 @@ productTotalQuantity.innerHTML = sumQuantity;
 //Récupération des montants pour afficher le montant total du panier
 //Montant total = quantité sélectionnée * prix => pour chaque produit
 // Somme des [quantité sélectionnée * prix] de chaque produit
+/*
+console.log('a', await quantityAndPrice.quantity.length)
+
+
+for (let i = 0; i < quantityAndPrice.quantity.length; i++) {
+    console.log('b',amountTotal)
+    amountTotal = parseInt(quantityAndPrice.quantity[i]) * quantityAndPrice.price[i];
+    console.log('c', parseInt(quantityAndPrice.quantity[i]))
+    price.push(amountTotal)
+}*/
 let price = [];
 let amountTotal = 0
+let totalCart = 0
 
 JSON.parse(localStorage.getItem("productsAddCart")).forEach(product => {
     amountTotal = parseInt(product.quantity) * product.price;
     price.push(amountTotal)
 });
 
-let totalCart = 0
-
-for (let i = 0; i < price.length; i++) {
+if (price.length) {
+    for (let i = 0; i < price.length; i++) {
     totalCart = totalCart + price[i]; 
+    }
 }
 
+let productTotalPrice = document.getElementById('totalPrice');
+productTotalPrice.innerHTML = totalCart;
+
+
+/*Algorithme LOU
 let totalPrice = document.getElementById('totalPrice');
-totalPrice.innerHTML = totalCart;
+let totalCart = 0
+    if (price.length) {
+        for (let i = 0; i < price.length; i++) {
+        totalCart = totalCart + price[i]; 
+    }
+    totalPrice.innerHTML = totalCart;   
+ } else {
+    setTimeout(() => {
+        for (let i = 0; i < price.length; i++) {
+            totalCart = totalCart + price[i]; 
+        }
+        totalPrice.innerHTML = totalCart;   
+    }, 500)
+ }*/
 
 
 // Modification d'une quantité de produit
@@ -141,6 +244,8 @@ function modifyQuantity() {
             localStorage.setItem("productsAddCart", JSON.stringify(cart));
             
             changeQuantity.innerHTML = newQuantity;
+
+            location.reload();
         })
     }
 }
@@ -187,11 +292,16 @@ function errorMsgForm() {
     // Evènement saisie prénom
     function validationFirstName(inputFirstName) {
         let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+        let firstNameStyle = document.getElementById("firstName");
     
         if (charRegExp.test(inputFirstName.value)) {
-            firstNameErrorMsg.innerHTML = "";
+            firstNameErrorMsg.innerHTML = ""
+            firstNameStyle.style.color = "#64BC78"
+            firstNameStyle.style.border = "2px solid #64DC50";
         } else {
-            firstNameErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre prénom.";
+            firstNameErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre prénom."
+            firstNameStyle.style.color = "#FF2A27"
+            firstNameStyle.style.border = "2px solid #FF2A27";
         }
     };
 
@@ -203,11 +313,16 @@ function errorMsgForm() {
     // Evènement saisie nom
     function validationLastName(inputLastName) {
         let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+        let lastNameStyle = document.getElementById("lastName");
     
         if (charRegExp.test(inputLastName.value)) {
             lastNameErrorMsg.innerHTML = "";
+            lastNameStyle.style.color = "#64BC78"
+            lastNameStyle.style.border = "2px solid #64DC50"
         } else {
             lastNameErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre nom.";
+            lastNameStyle.style.color = "#FF2A27"
+            lastNameStyle.style.border = "2px solid #FF2A27";
         }
     };
 
@@ -219,11 +334,16 @@ function errorMsgForm() {
     // Evènement saisie adresse
     function validationAddress(inputAddress) {
         let addressErrorMsg = document.getElementById("addressErrorMsg");
+        let addressStyle = document.getElementById("address");
 
         if (addressRegExp.test(inputAddress.value)) {
             addressErrorMsg.innerHTML = "";
+            addressStyle.style.color = "#64BC78"
+            addressStyle.style.border = "2px solid #64DC50";
         } else {
             addressErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre adresse.";
+            addressStyle.style.color = "#FF2A27"
+            addressStyle.style.border = "2px solid #FF2A27";
         }
     };
 
@@ -235,11 +355,16 @@ function errorMsgForm() {
     // Evènement saisie ville
     function validationCity(inputCity) {
         let cityErrorMsg = document.getElementById("cityErrorMsg");
+        let cityStyle = document.getElementById("city");
     
         if (charRegExp.test(inputCity.value)) {
             cityErrorMsg.innerHTML = "";
+            cityStyle.style.color = "#64BC78"
+            cityStyle.style.border = "2px solid #64DC50";
         } else {
             cityErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre ville.";
+            cityStyle.style.color = "#FF2A27"
+            cityStyle.style.border = "2px solid #FF2A27";
         }
     };
 
@@ -251,11 +376,16 @@ function errorMsgForm() {
     // Evènement saisie email
     function validationEmail(inputEmail) {
         let emailErrorMsg = document.getElementById("emailErrorMsg");
+        let emailStyle = document.getElementById("email");
     
         if (emailRegExp.test(inputEmail.value)) {
             emailErrorMsg.innerHTML = "";
+            emailStyle.style.color = "#64BC78"
+            emailStyle.style.border = "2px solid #64DC50";
         } else {
             emailErrorMsg.innerHTML = "Votre saisie n'est pas valide ! Merci de saisir votre email.";
+            emailStyle.style.color = "#FF2A27"
+            emailStyle.style.border = "2px solid #FF2A27";
         }
     };
 
@@ -290,6 +420,7 @@ function sendOrder(){
             products: idProducts,
         } 
 
+
         //Envoi des éléments de la commande au service web
 
         fetch("http://localhost:3000/api/products/order", {
@@ -316,8 +447,3 @@ function sendOrder(){
     })
 }
 sendOrder();
-
-
-
-
-

@@ -9,9 +9,11 @@ function productsTableIndex() {
         return res.json();
       }
     })
+
     .then(function(value) {
       return value;
     })
+    
     .catch(function(err) {
       alert("Une erreur est survenue : " + err.message);
     });
