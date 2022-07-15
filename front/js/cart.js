@@ -1,14 +1,11 @@
 /* 8- Afficher un tableau récapitulatif des achats dans la page Panier */
 
-
 let cart = JSON.parse(localStorage.getItem("productsAddCart"));
-console.table(cart);
 
-
-//Afficher les éléments qui doivent apparaitre sur la page Panier
-
+//Répartition des données de l'API dans le DOM pour le détail des produits dnas le Panier
 function seeProductCart() {
 
+    //Si le panier est vide
     if(cart === null) {
         alert("Il n'y a aucun article dans le panier")
     }
@@ -109,8 +106,7 @@ function seeProductCart() {
 
 seeProductCart();
 
-//Afficher le montant total du panier
-//Récupération des quantités pour afficher le nombre d'articles
+//Récupération des quantités pour afficher le nombre de produits total
 let quantity = [];
 
 JSON.parse(localStorage.getItem("productsAddCart")).forEach(product => {
@@ -128,9 +124,6 @@ productTotalQuantity.innerHTML = sumQuantity;
 
 
 //Récupération des montants pour afficher le montant total du panier
-//Montant total = quantité sélectionnée * prix => pour chaque produit
-// Somme des [quantité sélectionnée * prix] de chaque produit
-
 let price = [];
 let amountTotal = 0
 let totalCart = 0
@@ -149,16 +142,12 @@ for (let i in cart) {
 
         if(productFromApi){
 
-            //JSON.parse(localStorage.getItem("productsAddCart")).forEach(product => {
-                amountTotal = parseInt(cart[i].quantity) * productFromApi.price;
-                price.push(amountTotal)
-            //})
+            amountTotal = parseInt(cart[i].quantity) * productFromApi.price;
+            price.push(amountTotal)
         }
 
         if (price.length) {
-            //for (let i = 0; i < price.length; i++) {
             totalCart = totalCart + price[i]; 
-            
         }
 
         let productTotalPrice = document.getElementById('totalPrice');
@@ -170,7 +159,11 @@ for (let i in cart) {
     })
 }
 
-// Modification d'une quantité de produit
+
+/* 9- Gérer la modification et la suppression de produits dans la page Panier */
+
+
+// Modification d'une quantité de produit sur la page Panier
 function modifyQuantity(input, cart, i) {
 
         let oldQuantity = cart[i].quantity;
@@ -187,7 +180,7 @@ function modifyQuantity(input, cart, i) {
         location.reload();
 }
 
-// Suppression d'un produit
+// Suppression d'un produit sur la page Panier
 function deleteProduct(cart, i) {
 
     //Selection de l'élément à supprimer en fonction de son id ET sa couleur
@@ -198,68 +191,15 @@ function deleteProduct(cart, i) {
     
     localStorage.setItem("productsAddCart", JSON.stringify(cart));
 
-    //Alerte produit supprimé et refresh
     alert("Ce produit a bien été supprimé du panier");
     location.reload();
 }
 
-/*
-function modifyQuantity() {
-    console.log('a')
-    const changeQuantity = document.getElementsByClassName("itemQuantity");
-
-    for (let i = 0; i < changeQuantity.length; i++){
-        changeQuantity[i].addEventListener("change", (event) => {
-            console.log(changeQuantity)
-            event.preventDefault();
-
-            let oldQuantity = cart[i].quantity;
-            let newQuantity = changeQuantity[i].value;
-
-            if(newQuantity !== oldQuantity) {
-                cart[i].quantity = newQuantity;
-            }    
-
-            localStorage.setItem("productsAddCart", JSON.stringify(cart));
-            
-            changeQuantity.innerHTML = newQuantity;
-
-            location.reload();
-        })
-    }
-}
-modifyQuantity();
-
-
-
-function deleteProductCart() {
-
-    const deleteItem = document.getElementsByClassName("deleteItem");
-
-    for (let i = 0; i < deleteItem.length; i++){
-        deleteItem[i].addEventListener("click", (event) => {
-
-            event.preventDefault();
-
-            //Selection de l'élément à supprimer en fonction de son id ET sa couleur
-            let idDelete = cart[i].id;
-            let colorDelete = cart[i].color;
-
-            cart = cart.filter(el => el.id !== idDelete || el.color !== colorDelete);
-            
-            localStorage.setItem("productsAddCart", JSON.stringify(cart));
-
-            //Alerte produit supprimé et refresh
-            alert("Ce produit a bien été supprimé du panier");
-            location.reload();
-        })
-    }
-}
-deleteProductCart();
-*/
 
 /* 10- Passer la commande */
-/* Instauration des regex dans le formulaire de la page Panier */
+
+
+//Mise en place de la validation des champs pour activer le changement de page
 const validField = [
     {field: 'firstName', isValid: false},
     {field: 'lastName', isValid: false},
@@ -396,53 +336,34 @@ function errorMsgForm() {
 }
 errorMsgForm();
 
-/*
-// Ajout de l'écoute du clic sur le bouton commander
-const btnOrder = document.getElementById("order");
-btnOrder.addEventListener("click", (event)=>{ 
-    formValidator();
-});
 
-// validation des champs du formulaire
-function formValidator() {
-    const divFormText = document.getElementsByClassName("cart__order__form__question");
-    console.log(divFormText[0])
-    const inputFormText = [];
-    for (let i=0; i<divFormText.length; i++) {
-        inputFormText.push(divFormText[i].children[1])
-    }
-
-    console.log(inputFormText[0].style.color)
-}*/
-
+// Ajout de l'écoute au clic sur le bouton "Commander"
 const btnOrder = document.getElementById("order");
 
 btnOrder.addEventListener("click", (event)=>{
-    //event.preventDefault();
-    console.log('lala', validField.length)
+    
     let allFieldValid = true;
+
     for (let i=0; i< validField.length; i++) {
-        console.log('lalafff')
+        
         if (!validField[i].isValid) {
-            console.log('celui la', validField[i].field);
             allFieldValid = false;
         }
     }
+
     if (allFieldValid) {
         event.preventDefault();
-        console.log('laaaaaaaaaa')
         sendOrder();
-    } else {
-        alert('Les champs du formulaire ne sont pas renseignés correctement')
-    }
-    //sendOrder();
+    } 
 
+    else {
+        alert('Les champs du formulaire ne sont pas renseignés correctement. Merci de compléter à nouveau le formulaire')
+    }
 })
+
 //Envoi des informations client au localstorage
 function sendOrder(){
-    
-    //formValidator();
-   
+       
     //Constitution d'un tableau de produit
     let idProducts = [];
     for (let i = 0; i<cart.length;i++) {
@@ -463,7 +384,6 @@ function sendOrder(){
 
 
     //Envoi des éléments de la commande au service web
-
     fetch("http://localhost:3000/api/products/order", {
         method: 'POST',
         headers: {
@@ -484,9 +404,6 @@ function sendOrder(){
 
     .catch(function(err) {
         alert("Une erreur est survenue : " + err.message);
-    })        
-       
-    
-    
+    })         
 }
 

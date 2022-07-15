@@ -1,6 +1,6 @@
 /* 3- Insérer les produits dans la page d'accueil */
 
-// Récupération des articles de l'API
+//Récupération des articles de l'API
 function productsTableIndex() {
   return fetch("http://localhost:3000/api/products")
 
@@ -19,15 +19,14 @@ function productsTableIndex() {
     });
 }
 
-// Répartition des données de l'API dans le DOM
+//Répartition des données de l'API dans le DOM pour tous les produits de la page d'accueil
 function displayProduct() {
-  // mettre dans une variable la récupération de la section avec l'id items dans le DOM
+  
   const section = document.getElementById("items");
 
-  // Créer une constante de chaque enfant de la balise "section"
   productsTableIndex().then((products) => {
     for (let i in products) {
-      const product = products[i]; //un élément = à l'index i du tableau products
+      const product = products[i];
 
       const a = document.createElement("a");  
       a.setAttribute("href",`./product.html?id=${product._id}`);
@@ -56,24 +55,7 @@ function displayProduct() {
 
 displayProduct();
 
- /** 
-1. Fonctionnement de Fetch :
 
-  fetch(url)
-  .then(function(response) {
-  response.text()
-
-  .then(function(text) {
-    poemDisplay
-    .textContent = text;
-  });
-});
-
-2. const newElt = document.createElement("div");
-let elt = document.getElementById("main"); 
-elt.appendChild(newElt);
-Appeler chaque élément en commençant par la section et finir par le p
-*/
 
 
 

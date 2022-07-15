@@ -1,15 +1,6 @@
 /* 4- Faire le lien entre un produit de la page d'accueil et la page Produit */
 
-/** “URLSearchParams” :
-var str = "https://waytolearnx.com/t.html?name=alex-babtise&age=25&address=paris";
-var url = new URL(str);
-var name = url.searchParams.get("name");
-console.log(name);
-*/
-
-
-
-//Créer une nouveau URL contenant l'id du produit correspondant
+//Créer une nouvelle URL contenant l'id du produit correspondant
 function getProductId() {
     const pageUrl = new URL(window.location.href);
     const productId = pageUrl.searchParams.get("id");
@@ -20,9 +11,7 @@ getProductId();
 
 /* 5- Récupérer l'id du produit à afficher */
 
-//Récupérer la nouvelle adresse avec un id spécifique pour chaque produit
-
-
+//Récupérer la nouvelle URL avec un id spécifique pour chaque produit
 let product = null;
 
 function getProductTable() {
@@ -52,8 +41,7 @@ getProductTable();
 
 /* 6- Insérer un produit et ses détails dans la page Produit */
 
-
-// Répartition des données de l'API dans le DOM pour le détail des produits à afficher  
+//Répartition des données de l'API dans le DOM pour le détail des produits à afficher  
 function getProductDetails(product) {
     
     const productImage = document.createElement("img");
@@ -80,20 +68,21 @@ function getProductDetails(product) {
 
 
 /* 7- Ajouter des produits dans le panier */
-// Récupération de la couleur sélectionnée 
+
+//Récupération de la couleur sélectionnée 
 document.addEventListener("change", function(event) {
     const color = document.querySelector("#colors").value;
     product.colorSelected = color;
 });
 
 
-// Récupération de la quantité saisie
+//Récupération de la quantité saisie
 document.addEventListener("change", function(event) {
     const quantity = document.getElementById("quantity").value;
     product.quantitySelected = quantity;
 });
 
-// Activation du bouton Ajouter dans le panier
+//Activation du bouton Ajouter dans le panier
 const boutonAjouterPanier = document.getElementById("addToCart");
 
 boutonAjouterPanier.addEventListener("click", function eventOnClick() {
@@ -106,16 +95,18 @@ boutonAjouterPanier.addEventListener("click", function eventOnClick() {
     checkIfAlreadyInLocalStorage(productAdded);
 });
 
-//Si le panier est vide
+//Gestion de l'ajout des produits dans le panier et le local storage
 function checkIfAlreadyInLocalStorage (productAdded) {
 
     //Importation dans le local storage
     let cart = localStorage.getItem("productsAddCart");
 
+    //Si le panier est vide
     if (cart == null) {
         cart = [productAdded]
         popupValidation(cart);
     }
+
     //Si le produit commandé est déjà dans le panier
     else {
         cart = JSON.parse(cart);
@@ -127,6 +118,7 @@ function checkIfAlreadyInLocalStorage (productAdded) {
                 popupValidation(cart);
             }
         })
+
         //Si le panier comporte déjà au moins 1 article ou si le produit commandé n'est pas dans le panier
         if (productFoundOnLocalStorage == false) {
             cart.push(productAdded);
@@ -134,7 +126,7 @@ function checkIfAlreadyInLocalStorage (productAdded) {
         }
     }
 }
-//Mise en fonction du changement du page lors du clic sur le bouton "Ajouter au panier"
+//Mise en fonction du changement de page lors du clic sur le bouton "Ajouter au panier"
 //Messages d'alerte en cas de non sélection de la couleur ou de la quantité
 function popupValidation(cart) {
     if (product.colorSelected == null || product.colorSelected === 0 || product.colorSelected === "0" || product.colorSelected === "" || product.colorSelected == undefined) {
